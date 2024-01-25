@@ -14,3 +14,8 @@ def home(request):
 def page_detail(request, id):
     page = models.Page.objects.get(id=id)
     return render(request, 'page.html', {'page': page})
+
+
+def faq_list(request):
+    faq = models.Faq.objects.all()
+    return render(request, 'faq.html', {'faqs': faq})

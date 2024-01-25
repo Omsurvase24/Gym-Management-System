@@ -13,7 +13,7 @@
     <script src="assets/jquery-3.6.0.min.js"></script>
     <title>Home - Arnold GYM</title>
   </head>
-  <body class="bg-dark">
+  <body class="bg-secondary">
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
 	  <div class="container">
@@ -63,7 +63,7 @@
 	    <p>© 2017–2021 Arnold GYM, Inc. · 
             <a href="{% url 'pagedetail' 2 %}">Privacy</a> · 
             <a href="{% url 'pagedetail' 3 %}">Terms</a> . 
-            <a href="faq.php">FAQ</a>
+            <a href="{% url 'faq' %}">FAQ</a> .
             <a href="#">Contact Us</a>
         </p>
 	    </footer>

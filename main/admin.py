@@ -22,3 +22,10 @@ class PageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Page, PageAdmin)
+
+
+class FaqAdmin(admin.ModelAdmin):
+    list_display = ('quest',)
+
+
+admin.site.register(models.Faq, FaqAdmin)
