@@ -44,3 +44,13 @@ class Faq(models.Model):
 
     def __str__(self):
         return self.quest
+
+
+class Enquiry(models.Model):
+    full_name = models.CharField(max_length=150)
+    email = models.EmailField()
+    detail = models.TextField()
+    send_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.full_name

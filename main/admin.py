@@ -29,3 +29,10 @@ class FaqAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Faq, FaqAdmin)
+
+
+class EnquiryAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'email', 'detail', 'send_time')
+
+
+admin.site.register(models.Enquiry, EnquiryAdmin)
