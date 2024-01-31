@@ -31,3 +31,15 @@ def enquiry(request):
             msg = 'Data has been saved'
     form = forms.EnquiryForm
     return render(request, 'enquiry.html', {'form': form, 'msg': msg})
+
+
+def gallery(request):
+    gallery = models.Gallery.objects.all().order_by('-id')
+    return render(request, 'gallery.html', {'gallerys': gallery})
+
+
+def gallery_detail(request, id):
+    gallery = models.Gallery.objects.get(id=id)
+    gallery_imgs = models.GalleryImage.objects.filter(
+        gallery=gallery).order_by('-id')
+    return render(request, 'gallery_imgs.html', {'gallery_imgs': gallery_imgs, 'gallery': gallery})
