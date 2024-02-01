@@ -53,7 +53,8 @@ admin.site.register(models.GalleryImage, GalleryImageAdmin)
 
 
 class SubPlanAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price')
+    list_editable = ('highlight_status',)
+    list_display = ('title', 'price', 'highlight_status')
 
 
 admin.site.register(models.SubPlan, SubPlanAdmin)
