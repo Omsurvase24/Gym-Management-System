@@ -9,7 +9,8 @@ from . import forms
 def home(request):
     banners = models.Banners.objects.all()
     services = models.Service.objects.all()[:3]
-    return render(request, 'home.html', {'banners': banners, 'services': services})
+    gimgs = models.GalleryImage.objects.all().order_by('-id')[:9]
+    return render(request, 'home.html', {'banners': banners, 'services': services, 'gimgs': gimgs})
 
 
 def page_detail(request, id):
@@ -47,5 +48,5 @@ def gallery_detail(request, id):
 
 def pricing(request):
     pricing = models.SubPlan.objects.all()
-    distinct_features = models.SubPlanFeature.objects.distinct('title')
+    distinct_features = models.SubPlanFeature.objects.all()
     return render(request, 'pricing.html', {'plans': pricing, 'distinct_features': distinct_features})

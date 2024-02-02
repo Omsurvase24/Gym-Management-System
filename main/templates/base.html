@@ -11,20 +11,21 @@
     <link rel="stylesheet" type="text/css" href="node_modules/bootstrap-icons/font/bootstrap-icons.css" />
     <!-- jquery -->
     <script src="assets/jquery-3.6.0.min.js"></script>
+    <script type = "text/javascript" src="{% static 'jquery-3.7.1.min.js' %}"></script>
     <title>Home - Arnold GYM</title>
   </head>
   <body class="bg-secondary">
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
 	  <div class="container">
-	    <a class="navbar-brand" href="./"><strong>GYM Procity</strong></a>
+	    <a class="navbar-brand" href="{% url 'home' %}"><strong>GYM Procity</strong></a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
 	    <div class="collapse navbar-collapse" id="navbarNav">
 	      <ul class="navbar-nav ms-auto">
 	        <li class="nav-item">
-	          <a class="nav-link" aria-current="page" href="./">Home</a>
+	          <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" aria-current="page" href="{% url 'gallery' %}">Gallery</a>

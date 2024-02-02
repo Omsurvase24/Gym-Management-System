@@ -61,7 +61,10 @@ admin.site.register(models.SubPlan, SubPlanAdmin)
 
 
 class SubPlanFeatureAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+    list_display = ('title', 'subplans')
+
+    def subplans(self, obj):
+        return " | ".join([sub.title for sub in obj.subplan.all()])
 
 
 admin.site.register(models.SubPlanFeature, SubPlanFeatureAdmin)
