@@ -41,11 +41,20 @@
 	            My Account
 	          </a>
 	          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-	            <li><a class="dropdown-item" href="login.php">Login</a></li>
+				{% if not request.user.is_authenticated %}
+	            <li><a class="dropdown-item" href="{% url "signup" %}">Register</a></li>
+	            <li><a class="dropdown-item" href="{% url "login" %}">Login</a></li>
 	            <li><hr class="dropdown-divider"></li>
+				{% else %}
 	            <li><a class="dropdown-item" href="#">Profile</a></li>
 	            <li><a class="dropdown-item" href="#">Settings</a></li>
-	            <li><a class="dropdown-item" href="#">Logout</a></li>
+	            <li>
+					<form action="{% url 'logout' %}" method="post">
+  					{% csrf_token %}
+  					<button type="submit" class = "dropdown-item">Log Out</button>
+					</form>
+				</li>
+				{% endif %}
 	          </ul>
 	        </li>
 	      </ul>
