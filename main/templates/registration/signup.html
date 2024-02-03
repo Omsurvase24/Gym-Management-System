@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-
-{% if not request.user.is_authenticated %}
     <main>
 		<!-- Services -->
 		<section class="container my-4">
@@ -10,9 +8,9 @@
 			<div class="row">
 				<div class="col-md-6 offset-3">
 					{% if msg %}
-					<p class = "text-dark">{{msg}}</p>
+					<p class = "text-success">{{msg}}</p>
 					{% endif %}
-					<form method="post" action="">
+					<form method="post" action="{% url 'signup' %}">
 						{% csrf_token %}
 						<table class="table table-bordered">
 							{{form.as_table}}
@@ -28,8 +26,4 @@
 		</section>
 		<!-- End -->
     </main>
-
-{% else %}
-<p>Already LoggedIn</p>
-{% endif %}
 {% endblock %}

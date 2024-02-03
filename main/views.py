@@ -52,8 +52,8 @@ def pricing(request):
     return render(request, 'pricing.html', {'plans': pricing, 'distinct_features': distinct_features})
 
 
-def Signup(request):
-    msg = None
+def signup(request):
+    msg = ''
     if request.method == 'POST':
         form = forms.SignUp(request.POST)
         if form.is_valid():

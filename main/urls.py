@@ -11,7 +11,7 @@ urlpatterns = [
     path('gallery', views.gallery, name='gallery'),
     path('gallerydetail/<int:id>', views.gallery_detail, name='gallerydetail'),
     path('pricing', views.pricing, name='pricing'),
-    path('accounts/signup', views.Signup, name='signup'),
+    path('accounts/signup', views.signup, name='signup'),
 ]
 
 if settings.DEBUG:
