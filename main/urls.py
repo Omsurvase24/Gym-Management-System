@@ -12,6 +12,7 @@ urlpatterns = [
     path('gallerydetail/<int:id>', views.gallery_detail, name='gallerydetail'),
     path('pricing', views.pricing, name='pricing'),
     path('accounts/signup', views.signup, name='signup'),
+    path('checkout/<int:plan_id>', views.checkout, name='checkout'),
 ]
 
 if settings.DEBUG:
