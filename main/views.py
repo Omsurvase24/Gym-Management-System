@@ -47,7 +47,7 @@ def gallery_detail(request, id):
 
 
 def pricing(request):
-    pricing = models.SubPlan.objects.all()
+    pricing = models.SubPlan.objects.all().order_by('price')
     distinct_features = models.SubPlanFeature.objects.all()
     return render(request, 'pricing.html', {'plans': pricing, 'distinct_features': distinct_features})
 
