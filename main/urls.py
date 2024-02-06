@@ -13,6 +13,10 @@ urlpatterns = [
     path('pricing', views.pricing, name='pricing'),
     path('accounts/signup', views.signup, name='signup'),
     path('checkout/<int:plan_id>', views.checkout, name='checkout'),
+    path('checkout_session/<int:plan_id>',
+         views.checkout_session, name='checkout_session'),
+    path('pay_success', views.pay_success, name='pay_success'),
+    path('pay_cancel', views.pay_cancel, name='pay_cancel'),
 ]
 
 if settings.DEBUG:
