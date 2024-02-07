@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
+from django.template.loader import get_template
 from . import models
 from . import forms
 import stripe
+from django.core.mail import EmailMessage
 # Create your views here.
 
 # Home
@@ -104,6 +106,14 @@ def pay_success(request):
         user=user,
         price=plan.price
     )
+    subject = 'Order Email'
+    html_content = get_template(
+        'orderemail.html').render({'title': plan.title})
+    from_email = 'omsurvase24@gmail.com'
+    msg = EmailMessage(subject, html_content, from_email, ['mikka@gmail.com'])
+    msg.content_subtype = "html"
+    msg.send()
+
     return render(request, 'success.html')
 
 
