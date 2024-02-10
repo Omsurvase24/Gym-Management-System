@@ -17,6 +17,9 @@ urlpatterns = [
          views.checkout_session, name='checkout_session'),
     path('pay_success', views.pay_success, name='pay_success'),
     path('pay_cancel', views.pay_cancel, name='pay_cancel'),
+    # USER DASHBOARD
+    path('user/dashboard', views.user_dashboard, name='user_dashboard'),
+    path('user/update-profile', views.update_profile, name='update_profile'),
 ]
 
 if settings.DEBUG:
