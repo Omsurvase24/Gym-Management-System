@@ -23,6 +23,8 @@ urlpatterns = [
     # Trainer Login
     path('trainerlogin', views.trainerlogin, name='trainerlogin'),
     path('trainerlogout', views.trainerlogout, name='trainerlogout'),
+    # Notifications
+    path('notify', views.notify, name='notify'),
 ]
 
 if settings.DEBUG:
