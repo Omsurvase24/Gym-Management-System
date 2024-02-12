@@ -166,8 +166,26 @@ def notify(request):
 
 def get_notify(request):
     data = models.Notify.objects.all().order_by('-id')
-    jsonData = serializers.serialize('json', data)
-    return JsonResponse({'data': jsonData})
+    notifyStatus = False
+    jsonData = []
+    totalUnread = 0
+    for d in data:
+        try:
+            notifyStatusData = models.NotifyUserStatus.objects.get(
+                user=request.user, notify=d)
+            if notifyStatusData:
+                notifyStatus = True
+        except models.NotifyUserStatus.DoesNotExist:
+            notifyStatus = False
+        if not notifyStatus:
+            totalUnread = totalUnread+1
+        jsonData.append({
+            'pk': d.id,
+            'notify_detail': d.notify_detail,
+            'notifyStatus': notifyStatus
+        })
+    # jsonData=serializers.serialize('json', data)
+    return JsonResponse({'data': jsonData, 'totalUnread': totalUnread})
 
 # Mark Read by User
 

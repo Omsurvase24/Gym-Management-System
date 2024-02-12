@@ -12,7 +12,7 @@
                 {% include "user/left-sidebar.html" %}
             </div>
             <div class = "col-9">
-                <h3 class = "mb-4 border-bottom pb-1">Notifications <span class = "badge bg-primary">123</span></h3>
+                <h3 class = "mb-4 border-bottom pb-1">Notifications <span class = "badge bg-primary totalunread">123</span></h3>
                 <span class"ajaxRes"></span>
                 <ul class = "list-group notify-list">
                     Loading...
@@ -35,9 +35,14 @@
                 },
                 success: function(res){
                     _html = '';
-                    _json = $.parseJSON(res.data);
-                    $.each(_json, function(index, d){
-                        _html += '<li class = "list-group-item bg-secondary-subtle list'+d.pk+'">'+d.fields.notify_detail+'<button data-index = "'+d.pk+'" data-notify = "'+d.pk+'" class = "btn btn-sm btn-primary float-end markreadbtn markreadbtn'+d.pk+'">MarkRead</button><button class = "float-end btn btn-success btn-sm marked marked'+d.pk+'"><i class="bi bi-check2-square"></i></button></li>';
+                    $(".totalunread").text(res.totalUnread);
+                    $.each(res.data, function(index, d){
+                        if(d.notifyStatus == true){
+                            _html += '<li class = "list-group-item list'+d.pk+'">'+d.notify_detail+'<button data-index = "'+d.pk+'" data-notify = "'+d.pk+'" class = "btn btn-sm btn-primary float-end markreadbtn markreadbtn'+d.pk+'" style = "display:none;">MarkRead</button><button class = "float-end btn btn-success btn-sm marked'+d.pk+'"><i class="bi bi-check2-square"></i></button></li>';
+                        }
+                        else{
+                            _html += '<li class = "list-group-item bg-secondary-subtle list'+d.pk+'">'+d.notify_detail+'<button data-index = "'+d.pk+'" data-notify = "'+d.pk+'" class = "btn btn-sm btn-primary float-end markreadbtn markreadbtn'+d.pk+'">MarkRead</button><button class = "float-end btn btn-success btn-sm marked marked'+d.pk+'"><i class="bi bi-check2-square"></i></button></li>';
+                        }
                     });
                     $(".notify-list").html(_html);
                     $(".ajaxRes").hide();
