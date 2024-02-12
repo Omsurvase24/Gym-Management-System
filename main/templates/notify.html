@@ -8,12 +8,37 @@
             </div>
             <div class = "col-9">
                 <h3 class = "mb-4 border-bottom pb-1">Notifications <span class = "badge bg-primary">123</span></h3>
-                <ul class = "list-group">
-                    <li class = "list-group-item">This is Notification 2 <span class = "btn btn-sm btn-success float-end"><i class="bi bi-check2-square"></i></span></li>
-                    <li class = "list-group-item bg-secondary-subtle">This is Notification 1 <button class = "btn btn-sm btn-primary float-end">Mark Read</button></li>
+                <span class"ajaxRes"></span>
+                <ul class = "list-group notify-list">
+                    Loading...
                 </ul>
             </div>
         </div> 
     </section>
 </main>
+
+<script type = "text/javascript">
+    $(document).ready(function(){
+        $(".ajaxRes").hide();
+        setInterval(function(){
+            $.ajax({
+                url:"{% url 'get_notify' %}",
+                dataType:'json',
+                beforeSend: function(){
+                    $(".ajaxRes").show();
+                    $(".ajaxRes").text('Loading...');
+                },
+                success: function(res){
+                    _html = '';
+                    _json = $.parseJSON(res.data);
+                    $.each(_json, function(index, d){
+                        _html += '<li class = "list-group-item bg-secondary-subtle">'+d.fields.notify_detail+'<button class = "btn btn-sm btn-primary float-end">Mark Read</button></li>';
+                    });
+                    $(".notify-list").html(_html);
+                    $(".ajaxRes").hide();
+                }
+            });
+        }, 5000);
+    });
+</script>
 {% endblock %}

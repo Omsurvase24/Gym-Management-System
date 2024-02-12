@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
+from django.core import serializers
+from django.http import JsonResponse
 from . import models
 from . import forms
 import stripe
@@ -158,5 +160,11 @@ def trainerlogout(request):
 
 
 def notify(request):
-    data = models.Notify.objects.all().order_by('id')
+    data = models.Notify.objects.all().order_by('-id')
     return render(request, 'notify.html', {'data': data})
+
+
+def get_notify(request):
+    data = models.Notify.objects.all().order_by('-id')
+    jsonData = serializers.serialize('json', data)
+    return JsonResponse({'data': jsonData})
