@@ -26,6 +26,7 @@ urlpatterns = [
     # Notifications
     path('notify', views.notify, name='notify'),
     path('get_notify', views.get_notify, name='get_notify'),
+    path('mark_read_notify', views.mark_read_notify, name='mark_read_notify'),
 ]
 
 if settings.DEBUG:

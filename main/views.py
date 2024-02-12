@@ -168,3 +168,14 @@ def get_notify(request):
     data = models.Notify.objects.all().order_by('-id')
     jsonData = serializers.serialize('json', data)
     return JsonResponse({'data': jsonData})
+
+# Mark Read by User
+
+
+def mark_read_notify(request):
+    notify = request.GET['notify']
+    notify = models.Notify.objects.get(pk=notify)
+    user = request.user
+    models.NotifyUserStatus.objects.create(
+        notify=notify, user=user, status=True)
+    return JsonResponse({'bool': True})

@@ -171,3 +171,11 @@ class Notify(models.Model):
 
     def __str__(self):
         return self.notify_detail
+
+# Mark as read
+
+
+class NotifyUserStatus(models.Model):
+    notify = models.ForeignKey(Notify, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)

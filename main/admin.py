@@ -104,3 +104,10 @@ class NotifyAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Notify, NotifyAdmin)
+
+
+class NotifyUserStatusAdmin(admin.ModelAdmin):
+    list_display = ('notify', 'user', 'status')
+
+
+admin.site.register(models.NotifyUserStatus, NotifyUserStatusAdmin)
