@@ -111,3 +111,10 @@ class NotifyUserStatusAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.NotifyUserStatus, NotifyUserStatusAdmin)
+
+
+class AssignSubscriberAdmin(admin.ModelAdmin):
+    list_display = ('user', 'trainer')
+
+
+admin.site.register(models.AssignSubscriber, AssignSubscriberAdmin)
