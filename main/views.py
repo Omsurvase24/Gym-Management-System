@@ -126,9 +126,27 @@ def pay_cancel(request):
 def user_dashboard(request):
     current_plan = models.Subscription.objects.get(user=request.user)
     my_trainer = models.AssignSubscriber.objects.get(user=request.user)
+    loop = models.AssignSubscriber.objects.get(user=request.user)
+
+    data = models.Notify.objects.all().order_by('-id')
+    notifyStatus = False
+    jsonData = []
+    totalUnread = 0
+    for d in data:
+        try:
+            notifyStatusData = models.NotifyUserStatus.objects.get(
+                user=request.user, notify=d)
+            if notifyStatusData:
+                notifyStatus = True
+        except models.NotifyUserStatus.DoesNotExist:
+            notifyStatus = False
+        if not notifyStatus:
+            totalUnread = totalUnread+1
+
     return render(request, 'user/dashboard.html', {
         'current_plan': current_plan,
         'my_trainer': my_trainer,
+        'total_unread': totalUnread,
     })
 
 
