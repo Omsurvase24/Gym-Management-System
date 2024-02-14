@@ -119,3 +119,10 @@ class AssignSubscriberAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.AssignSubscriber, AssignSubscriberAdmin)
+
+
+class TrainerAchivementAdmin(admin.ModelAdmin):
+    list_display = ('title', 'image_tag')
+
+
+admin.site.register(models.TrainerAchivement, TrainerAchivementAdmin)
