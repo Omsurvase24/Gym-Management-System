@@ -11,6 +11,9 @@ class Banners(models.Model):
     img = models.ImageField(upload_to="banners/")
     alt_text = models.CharField(max_length=150)
 
+    class Meta:
+        verbose_name_plural = 'Banners'
+
     def __str__(self):
         return self.alt_text
 
@@ -88,6 +91,7 @@ class SubPlan(models.Model):
     price = models.IntegerField()
     max_member = models.IntegerField(null=True)
     highlight_status = models.BooleanField(default=False, null=True)
+    validity_days = models.IntegerField(null=True)
 
     def __str__(self):
         return self.title
@@ -137,6 +141,7 @@ class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     plan = models.ForeignKey(SubPlan, on_delete=models.CASCADE)
     price = models.CharField(max_length=50)
+    reg_date = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
         return str(self.plan)
@@ -179,6 +184,9 @@ class NotifyUserStatus(models.Model):
     notify = models.ForeignKey(Notify, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = 'Notification Status'
 
 
 class AssignSubscriber(models.Model):

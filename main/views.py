@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.template.loader import get_template
 from django.core import serializers
 from django.http import JsonResponse
+from django.db.models import Count
 from . import models
 from . import forms
 import stripe
 from django.core.mail import EmailMessage
+
+from datetime import timedelta
 # Create your views here.
 
 # Home
@@ -52,7 +55,8 @@ def gallery_detail(request, id):
 
 
 def pricing(request):
-    pricing = models.SubPlan.objects.all().order_by('price')
+    pricing = models.SubPlan.objects.annotate(
+        total_members=Count('subscription__id')).all().order_by('price')
     distinct_features = models.SubPlanFeature.objects.all()
     return render(request, 'pricing.html', {'plans': pricing, 'distinct_features': distinct_features})
 
@@ -126,7 +130,8 @@ def pay_cancel(request):
 def user_dashboard(request):
     current_plan = models.Subscription.objects.get(user=request.user)
     my_trainer = models.AssignSubscriber.objects.get(user=request.user)
-    loop = models.AssignSubscriber.objects.get(user=request.user)
+    enddate = current_plan.reg_date + \
+        timedelta(days=current_plan.plan.validity_days)
 
     data = models.Notify.objects.all().order_by('-id')
     notifyStatus = False
@@ -147,6 +152,7 @@ def user_dashboard(request):
         'current_plan': current_plan,
         'my_trainer': my_trainer,
         'total_unread': totalUnread,
+        'enddate': enddate,
     })
 
 
