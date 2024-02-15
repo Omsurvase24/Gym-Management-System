@@ -94,7 +94,7 @@ admin.site.register(models.Subscription, SubscriptionAdmin)
 
 class TrainerAdmin(admin.ModelAdmin):
     list_editable = ('is_active',)
-    list_display = ('full_name', 'mobile', 'is_active', 'image_tag')
+    list_display = ('full_name', 'mobile', 'is_active', 'salary', 'image_tag')
 
 
 admin.site.register(models.Trainer, TrainerAdmin)
@@ -126,3 +126,10 @@ class TrainerAchivementAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.TrainerAchivement, TrainerAchivementAdmin)
+
+
+class TrainerSalaryAdmin(admin.ModelAdmin):
+    list_display = ('trainer', 'amt', 'amt_date')
+
+
+admin.site.register(models.TrainerSalary, TrainerSalaryAdmin)
