@@ -226,3 +226,7 @@ def mark_read_notify(request):
     models.NotifyUserStatus.objects.create(
         notify=notify, user=user, status=True)
     return JsonResponse({'bool': True})
+
+
+def later(request):
+    pass
