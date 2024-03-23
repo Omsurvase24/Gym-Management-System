@@ -27,11 +27,18 @@
                 {% endfor %}
             </ul>
 
-            {% check_user_package request.user.id plan.id as check_pckg %}
-
             {% if request.user.is_authenticated %}
+            
+            {% check_user_package request.user.id plan.id as check_pckg %}
+            
+            {% check_pckg_validity request.user.id plan.id %}
+            
             {% if check_pckg %}
-            <a href="#" class="w-100 btn btn-lg btn-dark disabled">Purchased</a>
+              {% if check_validity %}
+                <a href="{% url "checkout" plan.id %}" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
+              {% else %}
+                <a href="#" class="w-100 btn btn-lg btn-dark disabled">Purchased</a>
+              {% endif %}
             {% else %}
             <a href="{% url "checkout" plan.id %}" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
             {% endif %}

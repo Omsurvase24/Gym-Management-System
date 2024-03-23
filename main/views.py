@@ -31,6 +31,10 @@ def faq_list(request):
     return render(request, 'faq.html', {'faqs': faq})
 
 
+def contact_page(request):
+    return render(request, 'contact_us.html')
+
+
 def enquiry(request):
     msg = ''
     if request.method == 'POST':
