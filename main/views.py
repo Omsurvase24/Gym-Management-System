@@ -249,5 +249,114 @@ def mark_read_notify(request):
     return JsonResponse({'bool': True})
 
 
-def later(request):
-    pass
+def trainer_subscribers(request):
+    trainer = models.Trainer.objects.get(pk=request.session['trainerid'])
+    trainer_subs = models.AssignSubscriber.objects.filter(
+        trainer=trainer).order_by('-id')
+    return render(request, 'trainer/trainer_subscribers.html', {'trainer_subs': trainer_subs})
+
+
+def trainer_payments(request):
+    trainer = models.Trainer.objects.get(pk=request.session['trainerid'])
+    trainer_pays = models.TrainerSalary.objects.filter(
+        trainer=trainer).order_by('-id')
+    return render(request, 'trainer/trainer_payments.html', {'trainer_pays': trainer_pays})
+
+
+def trainer_changepassword(request):
+    msg = None
+    if request.method == 'POST':
+        new_password = request.POST['new_password']
+        updateRes = models.Trainer.objects.filter(
+            pk=request.session['trainerid']).update(pwd=new_password)
+        if updateRes:
+            del request.session['trainerLogin']
+            return redirect('/trainerlogin')
+        else:
+            msg = 'Something is wrong!!'
+    form = forms.TrainerChangePassword
+    return render(request, 'trainer/trainer_changepassword.html', {'form': form})
+
+
+def trainer_notifs(request):
+    data = models.TrainerNotification.objects.all().order_by('-id')
+    trainer = models.Trainer.objects.get(id=request.session['trainerid'])
+    jsonData = []
+    totalUnread = 0
+    for d in data:
+        try:
+            notifStatusData = models.NotifTrainerStatus.objects.get(
+                trainer=trainer, notif=d)
+            if notifStatusData:
+                notifStatus = True
+        except models.NotifTrainerStatus.DoesNotExist:
+            notifStatus = False
+        if not notifStatus:
+            totalUnread = totalUnread+1
+        jsonData.append({
+            'pk': d.id,
+            'notify_detail': d.notif_msg,
+            'notifStatus': notifStatus
+        })
+    return render(request, 'trainer/notifs.html', {'notifs': jsonData, 'totalUnread': totalUnread})
+
+
+def mark_read_trainer_notif(request):
+    notif = request.GET['notif']
+    notif = models.TrainerNotification.objects.get(pk=notif)
+    trainer = models.Trainer.objects.get(id=request.session['trainerid'])
+    models.NotifTrainerStatus.objects.create(
+        notif=notif, trainer=trainer, status=True)
+
+    # Count Unread
+    totalUnread = 0
+    data = models.TrainerNotification.objects.all().order_by('-id')
+    for d in data:
+        try:
+            notifStatusData = models.NotifTrainerStatus.objects.get(
+                trainer=trainer, notif=d)
+            if notifStatusData:
+                notifStatus = True
+        except models.NotifTrainerStatus.DoesNotExist:
+            notifStatus = False
+        if not notifStatus:
+            totalUnread = totalUnread+1
+
+    return JsonResponse({'bool': True, 'totalUnread': totalUnread})
+
+
+def trainer_msgs(request):
+    data = models.TrainerMsg.objects.all().order_by('-id')
+    return render(request, 'trainer/msgs.html', {'msgs': data})
+
+
+def report_for_user(request):
+    trainer = models.Trainer.objects.get(id=request.session['trainerid'])
+    msg = ''
+    if request.method == 'POST':
+        form = forms.ReportForUserForm(request.POST)
+        if form.is_valid():
+            new_form = form.save(commit=False)
+            new_form.report_from_trainer = trainer
+            new_form.save()
+            msg = 'Data has been saved'
+        else:
+            msg = 'Invalid Response!!'
+    form = forms.ReportForUserForm
+    return render(request, 'report_for_user.html', {'form': form, 'msg': msg})
+
+
+def report_for_trainer(request):
+    user = request.user
+    msg = ''
+    if request.method == 'POST':
+        form = forms.ReportForTrainerForm(request.POST)
+        if form.is_valid():
+            new_form = form.save(commit=False)
+            new_form.report_from_user = user
+            new_form.save()
+            msg = 'Data has been saved'
+        else:
+            msg = 'Invalid Response!!'
+    form = forms.ReportForTrainerForm
+    return render(request, 'report_for_trainer.html', {'form': form, 'msg': msg})

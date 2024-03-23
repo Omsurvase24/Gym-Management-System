@@ -133,3 +133,38 @@ class TrainerSalaryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.TrainerSalary, TrainerSalaryAdmin)
+
+
+class TrainerNotificationAdmin(admin.ModelAdmin):
+    list_display = ('notif_msg',)
+
+
+admin.site.register(models.TrainerNotification, TrainerNotificationAdmin)
+
+
+class TrainerNotificationStatusAdmin(admin.ModelAdmin):
+    list_display = ('notif',)
+
+
+admin.site.register(models.NotifTrainerStatus, TrainerNotificationStatusAdmin)
+
+
+class TrainerMsgAdmin(admin.ModelAdmin):
+    list_display = ('user', 'trainer', 'message')
+
+
+admin.site.register(models.TrainerMsg, TrainerMsgAdmin)
+
+
+class TrainerSubscriberReportAdmin(admin.ModelAdmin):
+    list_display = ('report_msg', 'report_for_trainer',
+                    'report_for_user', 'report_from_trainer', 'report_from_user')
+
+
+admin.site.register(models.TrainerSubscriberReport,
+                    TrainerSubscriberReportAdmin)
+
+
+class AppSettingAdmin(admin.ModelAdmin):
+	list_display = ('image_tag',)
+admin.site.register(models.AppSetting, AppSettingAdmin)

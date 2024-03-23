@@ -25,10 +25,22 @@ urlpatterns = [
     path('trainerlogout', views.trainerlogout, name='trainerlogout'),
     path('trainer_dashboard', views.trainer_dashboard, name='trainer_dashboard'),
     path('trainer_profile', views.trainer_profile, name='trainer_profile'),
+    path('trainer_subscribers', views.trainer_subscribers,
+         name='trainer_subscribers'),
+    path('trainer_payments', views.trainer_payments, name='trainer_payments'),
+    path('trainer_changepassword', views.trainer_changepassword,
+         name='trainer_changepassword'),
+    path('trainer_notifs', views.trainer_notifs, name='trainer_notifs'),
     # Notifications
     path('notify', views.notify, name='notify'),
     path('get_notify', views.get_notify, name='get_notify'),
     path('mark_read_notify', views.mark_read_notify, name='mark_read_notify'),
+    # Messages
+    path('messages', views.trainer_msgs, name='messages'),
+    path('mark_read_trainer_notif', views.mark_read_trainer_notif,
+         name='mark_read_trainer_notif'),
+    path('report_for_user', views.report_for_user, name='report_for_user'),
+    path('report_for_trainer', views.report_for_trainer, name='report_for_trainer'),
 ]
 
 if settings.DEBUG:

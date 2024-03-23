@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'main',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,7 +71,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gymManageSys.wsgi.application'
+# WSGI_APPLICATION = 'gymManageSys.wsgi.application'
+ASGI_APPLICATION = 'gymManageSys.asgi.application'
 
 
 # Database
@@ -138,3 +140,12 @@ LOGOUT_REDIRECT_URL = "login"
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}

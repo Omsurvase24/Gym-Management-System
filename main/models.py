@@ -4,6 +4,11 @@ from django.contrib.auth.models import User
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+import json
 # Banners
 
 
@@ -231,3 +236,59 @@ class TrainerSalary(models.Model):
 
     class Meta:
         verbose_name_plural = 'Trainer Salaries'
+
+
+class TrainerNotification(models.Model):
+    notif_msg = models.TextField()
+
+    def __str__(self):
+        return str(self.notif_msg)
+
+    def save(self, *args, **kwargs):
+        super(TrainerNotification, self).save(*args, **kwargs)
+        channel_layer = get_channel_layer()
+        notif = self.notif_msg
+        total = TrainerNotification.objects.all().count()
+        async_to_sync(channel_layer.group_send)(
+            'noti_group_name', {
+                'type': 'send_notification',
+                'value': json.dumps({'notif': notif, 'total': total})
+            }
+        )
+
+
+class NotifTrainerStatus(models.Model):
+    notif = models.ForeignKey(TrainerNotification, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = 'Trainer Notification Status'
+
+
+class TrainerMsg(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True)
+    message = models.TextField()
+
+    class Meta:
+        verbose_name_plural = 'Messages For Trainer'
+
+
+class TrainerSubscriberReport(models.Model):
+    report_for_trainer = models.ForeignKey(
+        Trainer, on_delete=models.CASCADE, null=True, related_name='report_for_trainer')
+    report_for_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name='report_for_user')
+    report_from_trainer = models.ForeignKey(
+        Trainer, on_delete=models.CASCADE, null=True, related_name='report_from_trainer', blank=True)
+    report_from_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name='report_from_user', blank=True)
+    report_msg = models.TextField()
+
+
+class AppSetting(models.Model):
+    logo_img = models.ImageField(upload_to='app_logos/')
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="80" />' % (self.logo_img.url))
